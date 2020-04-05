@@ -11,8 +11,8 @@ class NeedlemanScore:
         valueIn=self.matrix[xIndis][yIndis]
         i=0
         while 1:
-
-            my_dict.update({str(i)+self.matrix[0][yIndis]+self.matrix[xIndis][0]:valueIn})
+         try:
+            my_dict.update({str(i)+' '+self.matrix[0][yIndis]+' '+self.matrix[xIndis][0]:valueIn})
             temp=self.matrix[xIndis-1][yIndis-1]
             tempIndisX=xIndis-1
             tempIndisY=yIndis-1
@@ -30,14 +30,34 @@ class NeedlemanScore:
             yIndis=tempIndisY
 
             i+=1
+            if(self.matrix[xIndis][yIndis]=='x'):
+                continue
             valueIn=self.matrix[xIndis][yIndis]
 
-
-            if((xIndis==2 and (yIndis==2 or yIndis ==1))or (yIndis==2 and (xIndis==2 or xIndis==1))):
+         except TypeError:
                 break
-        return my_dict
+        return self.conclusionPrint(my_dict,self.matrix)
+
+    def score(self,my_dict):
+        return sum(my_dict.values())
+
+    def conclusionPrint(self,my_dict,matrix):
+
+        cs=[]
+        for i in range(len(my_dict)-1, 0,-1):
+
+         spt=str(list(my_dict)[i]).split(' ')
+         count=spt[0]
+         ourSequence=spt[1]
+         otherSequence=spt[2]
+         if(ourSequence!=otherSequence):
+             cs.append('-')
+         else: cs.append(otherSequence)
+        
+        del matrix[0][0]
+        del matrix[0][0]
+        print(matrix[0])
+        print(cs)
+        print(self.score(my_dict))
 
 
-    def printScoreAndSequence(self,my_dict):
-
-        print(my_dict)

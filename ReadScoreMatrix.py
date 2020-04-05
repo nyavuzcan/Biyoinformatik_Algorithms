@@ -7,12 +7,12 @@ class ReadScoreMatrix:
         with open('scorematrix.txt') as f:
             self.lines = f.readlines()
 
-        print(self.operator(0))
+       # print(self.operator(0))
 
 
     def operator(self,i):
-        print(len(self.lines))
-        print(len(self.lines[1]))
+       # print(len(self.lines))
+        #print(len(self.lines[1]))
         y=0
         z=0
         for self.i in range(len(self.lines)):
@@ -42,5 +42,5 @@ class ReadScoreMatrix:
         while i<46:
          my_dict.update({scoreLines[i]+scoreLines[i+1]:scoreLines[i+2]})
          i+=3
-        print(my_dict)
+        #print(my_dict)
         return my_dict
