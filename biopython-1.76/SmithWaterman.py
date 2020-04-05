@@ -1,0 +1,2 @@
+class SmithWaterman:
+    print("asd")
