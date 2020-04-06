@@ -16,7 +16,7 @@ class NeedlemanScore:
         i=0
         while 1:
          try:
-            my_dict.update({str(i)+' '+self.matrix[0][yIndis]+' '+self.matrix[xIndis][0]:valueIn})
+            my_dict.update({str(xIndis)+' '+str(yIndis)+' '+self.matrix[0][yIndis]+' '+self.matrix[xIndis][0]:valueIn})
             temp=self.matrix[xIndis-1][yIndis-1]
             tempIndisX=xIndis-1
             tempIndisY=yIndis-1
@@ -44,11 +44,11 @@ class NeedlemanScore:
 
     def score(self,my_dict):
         sumofScore=0
-        for i in range(len(my_dict)-1, 50,-1):
+        for i in range(len(my_dict)-1, 0,-1):
          spt=str(list(my_dict)[i]).split(' ')
          count=spt[0]
-         ourSequence=spt[1]
-         otherSequence=spt[2]
+         ourSequence=spt[2]
+         otherSequence=spt[3]
          if(otherSequence=='-' or ourSequence=='-' or
          ourSequence=='x' or otherSequence=='x'
          ):
@@ -58,30 +58,33 @@ class NeedlemanScore:
         return sumofScore
 
     def conclusionPrint(self,my_dict,matrix):
-        n=2
-        m=2
         ourSequenceArr=[]
         otherSequenceArr=[]
+        m=2
+        n=2
 
         for z in range(len(my_dict)-1, 0,-1):
-            waitedX=matrix[0][m]
-            waitedY=matrix[n][0]
             spt=str(list(my_dict)[z]).split(' ')
-            count=spt[0]
-            ourSequence=spt[1]
-            otherSequence=spt[2]
-            if(ourSequence!=waitedX and otherSequence!=waitedY):
-                continue
-            if(ourSequence!=waitedX):
-                ourSequenceArr.append('-')
-            else:ourSequenceArr.append(waitedX)
-            if(otherSequence!=waitedY):
-                otherSequenceArr.append('-')
-            else:otherSequenceArr.append(waitedY)
+            xIndis=int(spt[0])
+            yIndis=int(spt[1])
+            ourSequence=spt[2]
+            otherSequence=spt[3]
+            sptNext=str(list(my_dict)[z-1]).split(' ')
+            xIndisNext=int(sptNext[0])
+            yIndisNext=int(sptNext[1])
 
-            m+=1
-            n+=1
-            if(m==52 or n == 52):break
+
+            if(xIndis - xIndisNext== -1 and yIndis- yIndisNext ==-1):
+                ourSequenceArr.append(matrix[0][xIndis])
+                otherSequenceArr.append(matrix[yIndis][0])
+            elif(xIndis - xIndisNext==-1):
+                ourSequenceArr.append(matrix[0][xIndis])
+                otherSequenceArr.append('-')
+            elif(yIndis-yIndisNext==-1):
+                ourSequenceArr.append('-')
+                otherSequenceArr.append(matrix[yIndis][0])
+
+
 
         if(self.whichOne==1):
          print('##needleman wunsch##')
