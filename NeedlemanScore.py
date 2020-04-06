@@ -44,7 +44,7 @@ class NeedlemanScore:
 
     def score(self,my_dict):
         sumofScore=0
-        for i in range(len(my_dict)-1, 0,-1):
+        for i in range(len(my_dict)-1, 50,-1):
          spt=str(list(my_dict)[i]).split(' ')
          count=spt[0]
          ourSequence=spt[1]
