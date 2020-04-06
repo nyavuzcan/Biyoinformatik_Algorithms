@@ -70,15 +70,18 @@ def calculateForLine(lines):
         scoreMatrixLine = readScoreMatrix.operator(0)
         needleman = Needleman(matrix, scoreMatrixLine)
         prMatrix = needleman.calculateMatris()
-        needlemanScore = NeedlemanScore(prMatrix,1)
+        needlemanScore = NeedlemanScore(prMatrix,1,scoreMatrixLine)
 
+
+
+def calculateForSmithLine(lines):
+    for j in range(len(lines)):
         matrixSmith=createMatrixForSmith(lines[j])
         readScoreMatrixSmith = ReadScoreMatrixForSmith()
         SmithWaterScoreLine=  readScoreMatrixSmith.operator(0)
         needlemanSmith = Needleman(matrixSmith, SmithWaterScoreLine)
         prMatrixSmith = needlemanSmith.calculateMatris()
-        NeedlemanScore(prMatrixSmith,0)
-
-
+        NeedlemanScore(prMatrixSmith,0,SmithWaterScoreLine)
 
 calculateForLine(lines)
+calculateForSmithLine(lines)

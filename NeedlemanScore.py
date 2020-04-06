@@ -1,9 +1,11 @@
 class NeedlemanScore:
     matrix = None
     whichOne = None
-    def __init__(self, matrix,whichOne):
+    scoreMatrixLine=None
+    def __init__(self, matrix,whichOne,scoreMatrixLine):
         self.whichOne=whichOne
         self.matrix=matrix
+        self.scoreMatrixLine=scoreMatrixLine
         self.calculate()
 
     def calculate(self):
@@ -32,7 +34,7 @@ class NeedlemanScore:
             yIndis=tempIndisY
 
             i+=1
-            if(self.matrix[xIndis][yIndis]=='x'):
+            if(self.matrix[xIndis][yIndis]=='x'or self.matrix[xIndis][yIndis]=='-'):
                 continue
             valueIn=self.matrix[xIndis][yIndis]
 
@@ -41,30 +43,56 @@ class NeedlemanScore:
         return self.conclusionPrint(my_dict,self.matrix)
 
     def score(self,my_dict):
-        return sum(my_dict.values())
-
-    def conclusionPrint(self,my_dict,matrix):
-
-        cs=[]
+        sumofScore=0
         for i in range(len(my_dict)-1, 0,-1):
-
          spt=str(list(my_dict)[i]).split(' ')
          count=spt[0]
          ourSequence=spt[1]
          otherSequence=spt[2]
-         if(ourSequence!=otherSequence):
-             cs.append('-')
-         else: cs.append(otherSequence)
+         if(otherSequence=='-' or ourSequence=='-' or
+         ourSequence=='x' or otherSequence=='x'
+         ):
+             continue
+         sumofScore +=  self.scoreMatrixLine[ourSequence+otherSequence]
 
-        del matrix[0][0]
-        del matrix[0][0]
+        return sumofScore
+
+    def conclusionPrint(self,my_dict,matrix):
+        n=2
+        m=2
+        ourSequenceArr=[]
+        otherSequenceArr=[]
+
+        for z in range(len(my_dict)-1, 0,-1):
+            waitedX=matrix[0][m]
+            waitedY=matrix[n][0]
+            spt=str(list(my_dict)[z]).split(' ')
+            count=spt[0]
+            ourSequence=spt[1]
+            otherSequence=spt[2]
+            if(ourSequence!=waitedX and otherSequence!=waitedY):
+                continue
+            if(ourSequence!=waitedX):
+                ourSequenceArr.append('-')
+            else:ourSequenceArr.append(waitedX)
+            if(otherSequence!=waitedY):
+                otherSequenceArr.append('-')
+            else:otherSequenceArr.append(waitedY)
+
+            m+=1
+            n+=1
+            if(m==52 or n == 52):break
+
         if(self.whichOne==1):
          print('##needleman wunsch##')
         else:
          print('##Smith Waterman##')
-        print(matrix[0])
-        print(cs)
+
+        print(ourSequenceArr)
+        print(otherSequenceArr)
         print(self.score(my_dict))
         print('####################################')
+
+
 
 
