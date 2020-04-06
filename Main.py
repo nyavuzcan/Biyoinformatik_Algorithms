@@ -3,7 +3,7 @@ import numpy as np
 from Needleman import Needleman
 from ReadScoreMatrix import ReadScoreMatrix
 from NeedlemanScore import NeedlemanScore
-
+from ReadScoreMatrixForSmith import ReadScoreMatrixForSmith
 with open('dna_sequences.txt') as f:
     lines = f.readlines()
 
@@ -39,6 +39,28 @@ def createMatrix(line):
 
     return putFirstPenalty(matrix)
 
+def putPenaltyForSmith(matrix):
+    for i in range(51):
+        matrix[i + 1][1] = 0
+        matrix[1][i + 1] = 0
+    return matrix
+
+def createMatrixForSmith(line):
+
+    w, h = 52, 52
+    matrix = [['x' for x in range(w)] for y in range(h)]
+    for i in range(len(DNA_ARRAY) - 1):
+     matrix[0][i + 2] = DNA_ARRAY[i]
+
+    for i in range(len(line) - 1):
+        matrix[i + 2][0] = line[i]
+        matrix[0][1] = '-'
+        matrix[1][0] = '-'
+
+    return putPenaltyForSmith(matrix)
+
+
+
 
 def calculateForLine(lines):
     for j in range(len(lines)):
@@ -48,7 +70,15 @@ def calculateForLine(lines):
         scoreMatrixLine = readScoreMatrix.operator(0)
         needleman = Needleman(matrix, scoreMatrixLine)
         prMatrix = needleman.calculateMatris()
-        needlemanScore = NeedlemanScore(prMatrix)
+        needlemanScore = NeedlemanScore(prMatrix,1)
+
+        matrixSmith=createMatrixForSmith(lines[j])
+        readScoreMatrixSmith = ReadScoreMatrixForSmith()
+        SmithWaterScoreLine=  readScoreMatrixSmith.operator(0)
+        needlemanSmith = Needleman(matrixSmith, SmithWaterScoreLine)
+        prMatrixSmith = needlemanSmith.calculateMatris()
+        NeedlemanScore(prMatrixSmith,0)
+
 
 
 calculateForLine(lines)

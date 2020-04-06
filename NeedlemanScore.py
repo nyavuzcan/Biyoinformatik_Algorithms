@@ -1,6 +1,8 @@
 class NeedlemanScore:
     matrix = None
-    def __init__(self, matrix):
+    whichOne = None
+    def __init__(self, matrix,whichOne):
+        self.whichOne=whichOne
         self.matrix=matrix
         self.calculate()
 
@@ -53,11 +55,16 @@ class NeedlemanScore:
          if(ourSequence!=otherSequence):
              cs.append('-')
          else: cs.append(otherSequence)
-        
+
         del matrix[0][0]
         del matrix[0][0]
+        if(self.whichOne==1):
+         print('##needleman wunsch##')
+        else:
+         print('##Smith Waterman##')
         print(matrix[0])
         print(cs)
         print(self.score(my_dict))
+        print('####################################')
 
 
